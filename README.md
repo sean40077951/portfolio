@@ -84,15 +84,6 @@ node -e "const b=require('fs').readFileSync('圖檔.png');console.log(b.readUInt
 2. 把敏感區域打上馬賽克
 3. 確認客戶同意公開後照原樣使用
 
-## 上線前的待辦
-
-集中在 `src/content/site.ts`：
-
-- [ ] `site.url` → 換成正式網域
-- [ ] `site.contact.links` → GitHub 帳號目前還是 `your-account`
-- [ ] 處理上面提到的客戶資料問題
-- [ ] 補上怪獸放電場專案的畫面（`kid-exhibition.ts` 裡有需要哪幾張的清單）
-
 ## 部署
 
 ### Cloudflare Pages（推薦）
@@ -111,8 +102,9 @@ node -e "const b=require('fs').readFileSync('圖檔.png');console.log(b.readUInt
 已附 `.github/workflows/deploy.yml`，推上 GitHub 後到 Settings → Pages → Source 選
 **GitHub Actions** 即可。
 
-> ⚠️ 若網址是 `帳號.github.io/portfolio` 這種**專案頁**，需要在 `next.config.ts` 加
-> `basePath: "/portfolio"`，否則樣式與連結會壞掉。用自訂網域或 Cloudflare Pages 沒有這個問題。
+專案頁的網址（`帳號.github.io/portfolio`）不是根目錄，所以 `next.config.ts` 會讀
+`NEXT_PUBLIC_BASE_PATH` 當作 `basePath`，workflow 在 build 時傳入 `/portfolio`。
+本機開發與 Cloudflare Pages 放在根目錄，不設這個變數即可。
 
 ## 技術說明
 

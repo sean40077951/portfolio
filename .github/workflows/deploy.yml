@@ -27,6 +27,9 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+        env:
+          # 專案頁網址是 /portfolio/，不帶前綴 build 出來的樣式與圖片會全部 404
+          NEXT_PUBLIC_BASE_PATH: /portfolio
 
       # GitHub Pages 預設會跳過底線開頭的資料夾（_next），加這個檔案才不會缺樣式
       - run: touch out/.nojekyll

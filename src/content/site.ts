@@ -15,7 +15,7 @@ export const site = {
     "我做的系統作品集：運動教學團隊的營運後台、親子展覽的線上預約系統。",
 
   /** TODO: 部署後換成你的正式網址 */
-  url: "https://your-domain.com",
+  url: "https://sean40077951.github.io/portfolio",
 
   /** 首頁開場。短就好，讓訪客三秒內捲到作品 */
   intro: {
@@ -44,7 +44,7 @@ export const site = {
     responseTime: "通常兩個工作天內回覆",
     email: "a970041@gmail.com",
     links: [
-      { label: "GitHub", value: "@your-account", href: "https://github.com/your-account" },
+      { label: "GitHub", value: "@sean40077951", href: "https://github.com/sean40077951" },
     ],
   },
 

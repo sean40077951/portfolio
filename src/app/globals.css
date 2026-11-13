@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* 深色模式改用 class 控制（搭配右上角的切換鈕），而不是跟著系統走 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   色票：極簡黑白
+   只有五個語意色，刻意不加品牌色——版面的層次靠留白與線條做出來。
+   --------------------------------------------------------------- */
+:root {
+  --paper: #ffffff; /* 底色 */
+  --ink: #0a0a0a; /* 主要文字 */
+  --muted: #6f6f76; /* 次要文字 */
+  --line: #e4e4e7; /* 分隔線、外框 */
+  --raise: #f7f7f8; /* 稍微浮起來的區塊 */
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #0a0a0a;
+  --ink: #fafafa;
+  --muted: #9a9aa2;
+  --line: #262629;
+  --raise: #121214;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-raise: var(--raise);
+
+  --font-sans: var(--font-sans-tc), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-code), ui-monospace, "SFMono-Regular", monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* 避免錨點跳轉時標題被固定導覽列蓋住 */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--ink);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  /* 中文字體在大字級時字距需要收一點才好看 */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /*
+   * 捲動進場動畫。
+   * 只有在 <html> 帶著 .js-reveal 時才會先隱藏——這個 class 由 layout 裡的
+   * inline script 在確認瀏覽器支援 IntersectionObserver 後才加上。
+   * 如此一來，關閉 JavaScript 或使用舊瀏覽器時，內容會正常顯示而不是永遠隱形。
+   */
+  .js-reveal .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .js-reveal .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* 小標籤文字：等寬、全大寫、寬字距 */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* 滑過時由左往右畫一條底線的連結 */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* 使用者若在系統設定關閉動畫，就全部停用 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
